@@ -1,8 +1,9 @@
 // Getting access to the graphics system
+
 #include "Graph.h"            // graphical shapes
 #include "Simple_window.h"    // stuff to deal with your system's windows
 
-int main()
+void demo()
 {
     ///////////////////////////////////////////////////////////////////////////
     // Demo 1
@@ -158,10 +159,64 @@ int main()
 
     win.set_label("Canvas #10");
 
-    Graph_lib::Image ii(Graph_lib::Point(100, 50), "image.gif");    // open an image file
+    Graph_lib::Image ii(
+        Graph_lib::Point(100, 50), "image.gif");    // open an image file
     win.attach(ii);
 
     win.wait_for_button();
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Demo 11
+
+    win.set_label("Canvas #11");
+    ii.move(100, 200);
+
+    win.wait_for_button();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Demo 12
+
+    win.set_label("Canvas #12");
+
+    Graph_lib::Circle c(Graph_lib::Point(100, 200), 50);
+    win.attach(c);
+
+    Graph_lib::Ellipse e(Graph_lib::Point(100, 200), 75, 25);
+    e.set_color(Graph_lib::Color::dark_red);
+    win.attach(e);
+
+    Graph_lib::Mark m(Graph_lib::Point(100, 200), 'x');
+    win.attach(m);
+
+    std::ostringstream oss;
+    oss << "screen size: " << Graph_lib::x_max() << "*" << Graph_lib::y_max()
+        << "; window size: " << win.x_max() << "*" << win.y_max();
+    Graph_lib::Text sizes(Graph_lib::Point(100, 20), oss.str());
+    win.attach(sizes);
+
+    // 320*240 pixel gif
+    Graph_lib::Image cal(Graph_lib::Point(225, 225), "snow_cpp.gif");
+
+    // display center of image
+    cal.set_mask(Graph_lib::Point(40, 40), 200, 150);
+    win.attach(cal);
+
+    win.wait_for_button();
+}
+
+int main()
+try
+{
+    demo();    // the  main part of your code
     return 0;
+}
+catch (std::exception& e)
+{
+    cerr << "exception: " << e.what() << '\n';
+    return 1;
+}
+catch (...)
+{
+    cerr << "Some exception\n";
+    return 2;
 }
